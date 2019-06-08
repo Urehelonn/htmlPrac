@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Calculator</title>
+    <script src="script.js"></script>
+</head>
+<body>
+    <div>
+        <input id="val1" onchange="checkDisable()" placeholder="Value 1">
+        <select id="operator">
+            <option value="+">Add</option>
+            <option value="-">Minus</option>
+            <option value="*">Multiply</option>
+            <option value="/">Divide</option>
+        </select>
+        <input id="val2" onchange="checkDisable()" placeholder="Value 2">
+        <button id="run" onclick="operation()" disabled> = </button>
+    </div>
+    <textarea id="infoBar" disabled></textarea>
+    <div>
+        <input disabled id="res" placeholder="Result">
+    </div>
+</body>
+</html>
