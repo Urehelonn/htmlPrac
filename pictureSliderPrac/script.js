@@ -10,18 +10,23 @@ let start = false;
 let startBt = document.getElementsByName('startBt')
 let img = document.getElementById('funMonsters')
 let dots=new Set()
+let interval;
+let disCount = 0
+let count=0
 
-let disCount = 0;
-
+//create dots
 imgs.forEach((ig)=>{
     console.log("add dots")
-    dots.add(document.createElement("button"))
+    let indicator = document.getElementById("indicator")
+    let temp = document.createElement("button")
+    temp.innerHTML = "bt"
+    temp.setAttribute("count", count++ +"")
+    let fCount = temp.getAttribute("count")
+    temp.setAttribute("onclick", "btControlPic("+fCount+")")
+    indicator.appendChild(temp)
+    dots.add(temp)
 })
 console.log(dots)
-dots.forEach((dot)=>{
-    dot.innerHTML=2
-    dot.setAttribute("class","dot")
-})
 
 function display(btn) {
 
@@ -39,6 +44,11 @@ function startDisplay(btn){
     //replace bt's text to stop
     btn.innerHTML='Stop Display'
 
+    img.setAttribute("src",imgs[disCount++])
+    if(disCount>=imgs.length){
+        disCount=0
+    }
+
     if(imgs!=null){
     //if imgs list is not empty starts display
         displayAuto(4)
@@ -48,6 +58,8 @@ function startDisplay(btn){
 function stopDisplay(btn){
     start = false
     btn.innerHTML = 'Start Display'
+
+    clearInterval(interval)
 }
 
 //disTIme is the time of waiting unit in sec
@@ -60,8 +72,15 @@ function displayNextPic() {
 }
 
 function displayAuto(gapTime){
-    setInterval(()=>{
+    interval = setInterval(()=>{
         displayNextPic()
     },gapTime*1000)
 }
 
+function btControlPic(fCount){
+    disCount = fCount
+    img.setAttribute("src",imgs[disCount++])
+    if(disCount>=imgs.length){
+        disCount=0
+    }
+}
