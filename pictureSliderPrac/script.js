@@ -6,81 +6,105 @@ let imgs = [
     "https://i.imgur.com/BTUTaE0.gif",
     "https://i.imgur.com/cwgdG3X.gif"
 ];
-let start = false;
-let startBt = document.getElementsByName('startBt')
-let img = document.getElementById('funMonsters')
-let dots=new Set()
+const playBtText = "<i class='fas fa-play'></i>";
+const stopBtText = "<i class='fas fa-pause'></i>";
+
+let startBt = document.getElementById("startBt");
+let img = document.getElementById('funMonsters');
+let indicators = document.getElementById("indicator");
+let dots = [];
+
+let displaying = false;
+let counter = -1;
 let interval;
-let disCount = 0
-let count=0
+
+createDots();
 
 //create dots
-imgs.forEach((ig)=>{
-    console.log("add dots")
-    let indicator = document.getElementById("indicator")
-    let temp = document.createElement("button")
-    temp.innerHTML = "bt"
-    temp.setAttribute("count", count++ +"")
-    let fCount = temp.getAttribute("count")
-    temp.setAttribute("onclick", "btControlPic("+fCount+")")
-    indicator.appendChild(temp)
-    dots.add(temp)
-})
-console.log(dots)
+function createDots(){
+    let count=0;   //counter for button create
+    imgs.forEach(()=>{
+        let temp = document.createElement("button");
+        temp.setAttribute("count", count++ +"");
+        temp.setAttribute("class","dot");
+        temp.setAttribute("onclick", "btControlPic("+count+")");
+        indicators.appendChild(temp);
+        dots.push(temp)
+    });
+}
 
-function display(btn) {
+function btControlPic(num){
+    //change img of the slider
+    img.setAttribute("src",imgs[num-1]);
+    //changer counter
+    counter=num-1;
 
-    if(start){
-        stopDisplay(btn)
+    //stop displaying, so user can look at the same picture as much as they want
+    stopDisplay();
+    //change style for the indicator
+    refreshIndicator();
+}
+
+function startBtTrigger() {
+    if(!displaying){
+        display(2);
     }
     else{
-        startDisplay(btn)
+        stopDisplay();
     }
 }
 
-function startDisplay(btn){
+function display(timerGap) {
+    //change button
+    displayNext();
+    interval = setInterval(displayNext, timerGap*1000);
+}
 
-    start = true;
-    //replace bt's text to stop
-    btn.innerHTML='Stop Display'
+function displayNext(){
+    //change displaying state first
+    displaying=true;
+    //console.log("displaying");
+    //move to next img
+    img.setAttribute("src",imgs[++counter]);
+    //change class of the indicator
+    refreshIndicator();
 
-    img.setAttribute("src",imgs[disCount++])
-    if(disCount>=imgs.length){
-        disCount=0
+    //reset counter to avoid indexOutofLength
+    if(counter>=imgs.length-1){
+        //console.log("reset counter");
+        counter=-1;
     }
 
-    if(imgs!=null){
-    //if imgs list is not empty starts display
-        displayAuto(4)
+    buttonDisplayChange();
+}
+
+function refreshIndicator(){
+    //reset all dots css class and bring curr pic button to class curr
+    dots.forEach((dot)=>{
+        dot.setAttribute("class","dot");
+    });
+    //console.log("gonna change indicator "+ counter);
+    dots[counter].setAttribute("class","dot curr");
+}
+
+function stopDisplay(){
+    //change displaying state
+    displaying = false;
+    //console.log("stop display");
+    //stop interval
+    clearInterval(interval);
+    //change button
+    buttonDisplayChange();
+}
+
+function buttonDisplayChange() {
+    console.log(displaying);
+    if(displaying){
+        console.log(" to stop");
+        startBt.innerHTML = stopBtText;
     }
-}
-
-function stopDisplay(btn){
-    start = false
-    btn.innerHTML = 'Start Display'
-
-    clearInterval(interval)
-}
-
-//disTIme is the time of waiting unit in sec
-function displayNextPic() {
-    img.setAttribute('src',imgs[disCount++])
-    //clear counter after a cycle
-    if(disCount==imgs.length){
-        disCount=0
-    }
-}
-
-function displayAuto(gapTime){
-    interval = setInterval(()=>{
-        displayNextPic()
-    },gapTime*1000)
-}
-
-function btControlPic(fCount){
-    disCount = fCount
-    img.setAttribute("src",imgs[disCount++])
-    if(disCount>=imgs.length){
-        disCount=0
+    else{
+        console.log("to playying");
+        startBt.innerHTML = playBtText;
     }
 }

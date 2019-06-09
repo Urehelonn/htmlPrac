@@ -1,9 +1,38 @@
-.dot {
-    height: 15px;
-    width: 15px;
-    margin: 0 2px;
-    background-color: #bbb;
+.curr{
+    border: coral 2px solid;
+}
+
+.dot:hover{
+    background-color: cadetblue;
+    color: yellowgreen;
+}
+.dot{
+    padding: 3px;
+    margin: 5px;
     border-radius: 50%;
-    display: inline-block;
-    transition: background-color 0.6s ease;
+}
+
+#startBt{
+    margin:auto;
+    padding: 10px;
+    border-radius: 30%;
+}
+
+img{
+    color: wheat;
+}
+
+.container{
+    background-color: #383a3d;
+    text-align: center;
+    padding: 30px;
+    width: 60%;
+    height: 50%;
+    margin: auto;
+    margin-top: 10%;
+}
+
+body{
+    text-align: center;
+    background-color: black;
 }
