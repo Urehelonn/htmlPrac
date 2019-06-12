@@ -78,6 +78,7 @@ function displayNext(){
     buttonDisplayChange();
 }
 
+//this function is to change indicator's style
 function refreshIndicator(){
     //reset all dots css class and bring curr pic button to class curr
     dots.forEach((dot)=>{
