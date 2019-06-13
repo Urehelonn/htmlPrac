@@ -9,6 +9,7 @@
 .idea/**/shelf
 
 # Generated files
+.idea/
 .idea/**/contentModel.xml
 
 # Sensitive or high-churn files
@@ -66,3 +67,28 @@ fabric.properties
 
 # Android studio 3.1+ serialized cache file
 .idea/caches/build_file_checksums.ser
+
+# Compiled source #
+###################
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+
+*.so
+
+# Packages #
+############
+# it's better to unpack these files and commit the raw source
+# git has its own built in compression methods
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
