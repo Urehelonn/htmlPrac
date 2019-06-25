@@ -39,3 +39,15 @@ body{
     text-align: center;
     background-color: black;
 }
+
+#left{
+    color: aliceblue;
+    margin: 30px;
+    position: static;
+    left: 250px;
+    top: 200px;
+}
+#right{
+    color: aliceblue;
+    margin: 30px;
+}
