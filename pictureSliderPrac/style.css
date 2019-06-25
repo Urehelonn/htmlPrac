@@ -50,4 +50,7 @@ body{
 #right{
     color: aliceblue;
     margin: 30px;
+    position: static;
+    left: 250px;
+    top: 200px;
 }

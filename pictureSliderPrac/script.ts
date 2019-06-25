@@ -61,6 +61,7 @@ function display(timerGap) {
 }
 
 function displayNext(){
+    // console.log("display start counter: "+counter);
     //change displaying state first
     displaying=true;
     //console.log("displaying");
@@ -69,17 +70,21 @@ function displayNext(){
     //change class of the indicator
     refreshIndicator();
 
+    // console.log("display after counter: "+counter);
     //reset counter to avoid indexOutofLength
     if(counter>=imgs.length-1){
         //console.log("reset counter");
         counter=-1;
+        // console.log("display counter roll back: "+counter);
     }
+
 
     buttonDisplayChange();
 }
 
 //this function is to change indicator's style
 function refreshIndicator(){
+    // console.log("refresh counter: "+ counter);
     //reset all dots css class and bring curr pic button to class curr
     dots.forEach((dot)=>{
         dot.setAttribute("class","dot");
@@ -99,13 +104,36 @@ function stopDisplay(){
 }
 
 function buttonDisplayChange() {
-    console.log(displaying);
+    // console.log(displaying);
     if(displaying){
-        console.log(" to stop");
+        // console.log(" to stop");
         startBt.innerHTML = stopBtText;
     }
     else{
-        console.log("to playying");
+        // console.log("to playing");
         startBt.innerHTML = playBtText;
     }
+}
+function leftBt() {
+    // console.log("left start counter: "+counter);
+
+    //counter change
+    if(counter<=-1){
+        counter=imgs.length-3;
+    }
+    else if(counter==0){
+        counter=imgs.length-2;
+        // console.log("counter back to end");
+    }
+    else {
+        counter-=2;
+    }
+    displayNext();
+
+    //stop after display next
+    stopDisplay();
+}
+function rightBt(){
+    displayNext();
+    stopDisplay();
 }
