@@ -1,69 +1,68 @@
-var input = "-5-11-3";
+var input = "-5+11-3";
+let leftover = [];
+
 console.log("input: " + input);
-calculator(input);
+console.log(calculate(input));
 
-let calculator = (str) => {
-    if(!str){
-        process.exit();
-    }
+function calculate(s) {
+    if (s.length === 0) return 0;
 
-    str = str.trim();
-    let num = 0;
-    let op;
+    // HANDLE SPACE
+    s = s.trim();
 
-    for(let i=str.length-1;i>=0;i--) {
-        let chr = str[i];
+    let i = 0;
+    let res = 0;
+    let pos = true;
+    let numStr = '';
 
-        //with brackets
-        if(chr==='('){
-            let bracket=1;
-            let bInd = i;
+    for (let i=0;i < s.length;i++){
+        if (s[i] === '(') {
+            //when the brackets starts, get res of numStr
+            res += pos ? parseInt(numStr) : 0-parseInt(numStr);
+            //reset numStr
+            numStr = '';
 
-            while(bracket>0){
-                bInd++;
-                //handle err on brackets:
-                if(bInd>str.length){
-                    console.log("Wrong bracket useage.");
-                    process.exit();
-                }
-
-                if(str[bInd]===')'){
-                    bracket--;
-                }
-                else if(str[bInd]==='('){
-                    bracket++;
-                }
+            // find closing brackets to get its index
+            let openCount = 1;
+            let j = i+1;
+            while (openCount > 0){
+                if (s[j] === "(") openCount++;
+                if (s[j] === ")") openCount--;
+                j++;
             }
+            j--;
 
-            //get res from in brackets value
-            calculate(str.substring(i,bInd));
-            //the str reprensent with i should only contains non-in-brackets char
-            i=bInd;
+            //get res between brackets
+            let inBracketsRes = calculate(s.substring(i+1, j));
+            
+            res += pos ? inBracketsRes : 0-inBracketsRes;
+            i = j;
         }
+        //if char is digit
+        if (s[i]<='9' && s[i]>='0'){
+            numStr+=s[i];
+        }
+        //if char is +, -
+        if (s[i]==='-' || s[i]==='+') {
+            //use numStr to do previous calc
+            res += pos ? Number(numStr) : 0 - Number(numStr);
+            console.log("res: "+res);
+            //reset numStr
+            numStr = '';
 
-        //without brackets
-        //get number at front
-
+            //get next positive boolean
+            pos = s[i] === '+';
+        }
     }
-}
 
-let operation = (op, a, b) => {
-    let A = parseInt(a);
-    let B = parseInt(b);
-
-    switch(op) {
-        case "+":
-            return A + B
-        case "-":
-            return A - B
-        case "/":
-            return A / B
-        case "/*:
-            return A * B
-        default:
-            break;
+    //if there's still number left, use it up
+    if (numStr.length) {
+        res += pos ? parseInt(numStr) : (0-parseInt(numStr));
     }
-}
+
+    console.log("res: "+res);
+    return res;
+};
 
 // function calculator(str) {
 //     console.log("running.");
